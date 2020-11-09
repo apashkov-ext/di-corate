@@ -76,3 +76,17 @@ export function get(constructor: Constructor): any {
 function hasCircularDependency(constructor: Function, dep: Constructor): boolean {
     return Boolean(registry.get(dep)?.find(f => f.constructor === constructor));
 }
+
+// function hasCDep(): boolean {
+//     const arr = Array.from(registry);
+    
+
+    
+// }
+
+// function hasCycle(v: number, p: number): boolean {
+//     const used = new Map<Function, boolean>();
+//     for (let w = 0; w < arr.length; w++) {
+//         for (let)
+//     }
+// }
