@@ -77,16 +77,54 @@ function hasCircularDependency(constructor: Function, dep: Constructor): boolean
     return Boolean(registry.get(dep)?.find(f => f.constructor === constructor));
 }
 
-// function hasCDep(): boolean {
-//     const arr = Array.from(registry);
-    
+export interface CyclicalDependency<T> {
+    firstNode: T;
+    lastNode: T;
+    nodes: T[];
+}
 
-    
-// }
+export class DependenciesAnalyzer<T> {
+    private readonly used = new Map<T, number>();
+    private readonly _parents = new Map<T, T | undefined>();
+    private _isCyclical = false;
 
-// function hasCycle(v: number, p: number): boolean {
-//     const used = new Map<Function, boolean>();
-//     for (let w = 0; w < arr.length; w++) {
-//         for (let)
-//     }
-// }
+    get isCyclical(): boolean {
+        return this._isCyclical;
+    }
+
+    get parents() {
+        return this._parents;
+    }
+
+    constructor(private readonly adjacencyList: Map<T, T[]>) {
+        this.analyze();
+    }
+
+    private analyze() {
+        this.parents.set(Array.from(this.adjacencyList)[0][0], undefined);
+        for (let v of this.adjacencyList) {
+            if (this.dfs(v[0])) {
+                this._isCyclical = true;
+                break;
+            }
+        }
+    }
+
+    private dfs(v: T): boolean {
+        this.used.set(v, 1);
+        for (let w of this.adjacencyList.get(v) || []) {
+            if (!this.used.has(w)) {
+                this._parents.set(w, v);
+                if (this.dfs(w)) {
+                    return true;
+                }
+            } else if (this.used.get(w) === 1) {
+                return true;
+            }
+        }
+        this.used.set(v, 2);
+        
+        return false;
+    }
+
+}
