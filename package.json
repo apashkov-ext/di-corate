@@ -20,5 +20,7 @@
     "di",
     "ioc",
     "inversion of control"
-  ]
+  ],
+  "devDependencies": {
+  }
 }
