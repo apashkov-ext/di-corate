@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "12"
 script:
+<<<<<<< HEAD
   - npm run build
 before_deploy:
   - npm run build
@@ -10,3 +11,6 @@ deploy:
   email: "$npm_email"
   api_key: "$npm_token"
   cleanup: true
+=======
+  - npm run build
+>>>>>>> dde1aadff8011d7f65dfdb66a959c354202a4e49
