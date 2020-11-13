@@ -1,0 +1,11 @@
+node_modules/
+src/
+.editorconfig
+.gitignore
+package-lock.json
+tsconfig.json
+.nyc_output
+coverage
+tests
+.coveralls.yml
+.travis.yml

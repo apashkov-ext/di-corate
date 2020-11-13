@@ -70,5 +70,3 @@ export class Component {
     }
 }
 ```
-## Roadmap
-- add circular dependency detection

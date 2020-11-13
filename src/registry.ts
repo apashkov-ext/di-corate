@@ -1,5 +1,4 @@
-import { PositionalArgument } from './types';
-import { Constructor } from './types/constructor';
+import { PositionalArgument, Constructor } from './types';
 
 /**
  * Contains registered injectable types and its dependencies.
