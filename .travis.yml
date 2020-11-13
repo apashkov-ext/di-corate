@@ -3,12 +3,3 @@ node_js:
   - "12"
 script:
   - npm run build
-before_deploy:
-  - npm run build
-deploy:
-  provider: npm
-  api_token: "$npm_token"
-  email: "$npm_enail"
-  cleanup: false
-  on:
-    branch: master
