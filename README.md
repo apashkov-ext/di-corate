@@ -1,6 +1,8 @@
 # di-corate
 Another dependency injection implementation for Typescript using decorators.
 
+[![Build Status](https://travis-ci.com/apashkov-ext/di-corate.svg?branch=main)](https://travis-ci.com/apashkov-ext/di-corate)
+
 ## Installation
 `npm install composite-validation`
 ## Using
