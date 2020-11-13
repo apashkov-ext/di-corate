@@ -21,6 +21,8 @@
     "ioc",
     "inversion of control"
   ],
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "typescript": "^4.0.5"
   }
 }
