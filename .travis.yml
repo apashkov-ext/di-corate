@@ -7,6 +7,6 @@ deploy:
   provider: npm
   api_key: "$npm_token"
   email: "$npm_enail"
-  skip_cleanup: true
+  cleanup: false
   on:
     branch: master
