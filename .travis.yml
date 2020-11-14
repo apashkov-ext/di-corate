@@ -1,12 +1,11 @@
 language: node_js
 node_js:
-  - "12"
+- '12'
 script:
-  - npm run test
-before_deploy:
-  - npm run build
+- npm run build
 deploy:
   provider: npm
   email: "$npm_email"
-  api_key: "$npm_token"
-  cleanup: true
+  api_key:
+    secure: j3WruvB8hOi+C9s0uLQYHT+ge2jJj8f7JJMgvdAesA8tSOa3f8TrwjPOkx2+ExC9dN/p5zSITLIrEiX005IPXf4eBG0gxwXRf4leci5w0UAAQaoBnPzYXZKFeyldjhUEHvXplKfcVXHtLo3qdmQ6SpB2m0frGE1REieDMoeO2xSKZ2CGMWCFtOB/VnrVQ+mTnW/i/Rx4YYk9xaCfBXL8f5bHUB1GpgDetUbQxUZRIc9aMX42gEfbvGJwYAfSiE1+mqfRE3ur6hzFhPmi9JQez1tRmu5abMq4TV8TgVMH/RMc8q8/29fy5DU0gSHECXrV23ED01uSGVB7xrM9vFpjLbIQ0DQfHaOdBCw2ZD8jJAqKPxR9gX9eYpFfQtS9GZiAtwtXtieT2U5l0Y5RhMkjXRYDx1zI35P+VClYJqbj9mR9IG8J0OBGs0le2Z6YkkjW8dEPJYwBGC1VP37kqsRnMMREnnJGpI9qTsOD6OGUu/O58ifuSnKuB2/7f4AejzOrLIastTVMbo789mI70kEkhAeO2P2vUfumOdTtp0FgB6Pc5k1KjQClB6W4O+kxsFlSAZMY75mxeSdlMbIOlKTELOXPYxA7lN+iIJGSJjf+u+lqAtUZ2WZDgJ6prQlrJCJ82lbfkfRzV+3vBXQPYIZDZPbYA/qkAf8R95FKX7UdGK0=
+  cleanup: false
