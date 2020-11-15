@@ -3,7 +3,7 @@ import { register } from '../registry'
 /**
  * Makes the class instance available for injection.
  */
-export default function Injectable(): ClassDecorator {
+export function Injectable(): ClassDecorator {
     return target => {
         return register(target);
     };

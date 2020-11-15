@@ -5,7 +5,7 @@ import { Constructor } from '../types';
  * Injects instance into the constructor argument.
  * @param c Type of required instance.
  */
-export default function Inject(c: Constructor): ParameterDecorator {
+export function Inject(c: Constructor): ParameterDecorator {
   return (target, key, index) => {  
     if (typeof target === 'function') {
       if (c === undefined) {

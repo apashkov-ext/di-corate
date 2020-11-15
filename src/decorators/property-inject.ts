@@ -5,7 +5,7 @@ import { Constructor } from '../types';
  * Injects instance into the property.
  * @param c Type of required instance.
  */
-export default function PropInject(c: Constructor): PropertyDecorator {
+export function PropInject(c: Constructor): PropertyDecorator {
   return (target, key) => {    
     if (typeof target !== 'function') {
       Object.defineProperty(target, key, {
