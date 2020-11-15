@@ -2,11 +2,15 @@
 Another dependency injection implementation for Typescript using decorators.
 
 [![Build Status](https://travis-ci.com/apashkov-ext/di-corate.svg?branch=main)](https://travis-ci.com/apashkov-ext/di-corate)
+[![npm version](https://img.shields.io/npm/v/di-corate)](https://www.npmjs.com/package/di-corate)
+[![install size](https://packagephobia.now.sh/badge?p=di-corate)](https://packagephobia.now.sh/result?p=di-corate)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/git/git-scm.com/blob/master/MIT-LICENSE.txt)
 
 ## Installation
-`npm install composite-validation`
+`npm install di-corate`
 ## Using
 Use the library to engage the Dependency Injection in your project.
+The library does not use the `reflect-metadata` package.
 #### Simple DI
 
 ```javascript
@@ -72,3 +76,5 @@ export class Component {
     }
 }
 ```
+## Roadmap
+- tests

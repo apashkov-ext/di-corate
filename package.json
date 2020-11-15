@@ -1,13 +1,14 @@
 {
   "name": "di-corate",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Another dependency injection implementation for Typescript using decorators",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "/lib"
+  ],
   "scripts": {
-    "build": "tsc -p .",
-    "postbuild": "node scripts/postbuild.js",
-    "publish": "npm run build && npm publish ./lib"
+    "build": "tsc -p ."
   },
   "author": "apashkov-ext",
   "license": "MIT",
@@ -15,17 +16,13 @@
     "type": "git",
     "url": "git+https://github.com/apashkov-ext/di-corate.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "keywords": [
     "dependency injection",
     "di",
     "ioc",
     "inversion of control"
   ],
-  "devDependencies": {},
-  "dependencies": {
+  "devDependencies": {
     "typescript": "^4.0.5"
   }
 }
