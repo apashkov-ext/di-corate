@@ -5,9 +5,9 @@ script:
 - npm run build
 deploy:
   provider: npm
-  email: "$npm_email"
+  email: "$NPM_EMAIL"
   api_key:
     secure: Os2f34pnaJt1mJxvRX0fyOmMGmBzsWetcrhKv5tTPMalp3vfv4f5gYfczSABH4I/AmnyjzHDfY+QybLMSDcs1+Winfy2tPq4Prnfjs7lDKrXsOF80w2ApI370ozg2LdH77thMfEYcuJGKXxwsr5bWDQ0vELSWnomOboa/zUsNpiyKEhe7KF445FUl9v9vHByWfCFFTyQYRuLUfMcEj9rfJcA8ylYHu5r4mXvVkXgJO/hJB6iwacQs01IV7NZLGggiUsDuJuVNLL12Fr4E1SLS3cTgGCgQhkISrxUt3V2cjNlwBjSF0F8K7EsQGVjgRw6fCy0P92j1X9GZfRuWH417XVNSqcfLzdGMNmqbsYwm/HU2ZLz9TD6noh1C3v9aVG2Cn78G0PL1JAxScsF/uXe7nuMvmmF4xUC3ZYSqUc+y0aKTGKxiPOGIgme6zz+UtYGB31CzbgOwd5tTJcve9gtOHdOhL9iQYij9NmopG9WuBVoQy96ENuAHS3CPTGnDdM0xHi3pniUOrLgMKSJTj9k+Iz8EeuR8MKkxPYBxFUkkwTWAYpSC+LLnzJa6/H1PcWo9JluCIWnMrQGQSdmA113gzUya/QKTFngRihwp6k0a3heHy4yOCf0hFUQcpgpOe+uWXxURzop9GG7mINsX6WabEjZC/D/fG1Yx4mb9W5kxK4=
-  skip_cleanup: true
+  cleanup: false
   on:
     branch: main
