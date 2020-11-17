@@ -1,0 +1,12 @@
+/lib/tests
+/src
+/.nyc_output
+/.vscode
+/coverage
+/node_modules
+.coveralls.yml
+.travis.yml
+.editorconfig
+.gitignore
+package-lock.json
+tsconfig.json

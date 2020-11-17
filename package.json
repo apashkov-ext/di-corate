@@ -4,9 +4,6 @@
   "description": "Another dependency injection implementation for Typescript using decorators",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "files": [
-    "/lib"
-  ],
   "scripts": {
     "test": "nyc --reporter=lcovonly --reporter=text mocha -r ts-node/register src/tests/**/*.test.ts",
     "test:ci": "npm run test && npm run coverage",
