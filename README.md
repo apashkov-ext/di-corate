@@ -113,10 +113,10 @@ export class DefaultService implements Service {
 
 **component.ts**
 ```javascript
-import { Container, Inject } from 'di-corate';
+import { addSingletone, Inject } from 'di-corate';
 import { DefaultService } from 'default-service';
 
-Container.addSingletone('Service', DefaultService);
+addSingletone('Service', DefaultService);
 
 export class Component {
     constructor(@Inject('Service') private readonly srv: Service) {
