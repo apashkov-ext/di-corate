@@ -1,10 +1,8 @@
-import { register } from '../registry'
+import { register } from '../registry';
 
 /**
  * Makes the class instance available for injection.
  */
 export function Injectable(): ClassDecorator {
-    return target => {
-        return register(target);
-    };
+    return target => register(target);
 }

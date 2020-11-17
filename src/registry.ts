@@ -1,21 +1,18 @@
-import { PositionalArgument, Constructor } from './types';
+import { bind, resolveType } from './container';
+import { PositionalArgument } from './types/positional-argument';
+import { Token } from './types/token';
+import { Type } from './types/type';
 
-/**
- * Contains registered injectable types and its dependencies.
- */
-const registry = new Map<Function, PositionalArgument[]>();
-/**
- * Stores instances of resolved dependencies.
- */
-const instances = new WeakMap<Constructor, any>();
+const registry = new Map<Token, PositionalArgument[]>();
+const instances = new Map<Token, any>();
 
-export function register(constructor: Function) {
+export function register(constructor: any) {
     if (!registry.has(constructor)) {
         registry.set(constructor, []);
     }
 }
 
-export function addDependency(target: Function, dep: Constructor, index: number) {
+export function addDependency(target: Token, dep: Token, index: number) {
     const deps = registry.get(target) || [];
     const d = deps.find(f => f.constructor === dep);
 
@@ -28,25 +25,39 @@ export function addDependency(target: Function, dep: Constructor, index: number)
     registry.set(target, deps);
 }
 
-export function get(constructor: Constructor): any {
-    if (instances.has(constructor)) {
-        return instances.get(constructor);
+export function get(token: Token): any {
+    if (instances.has(token)) {
+        return instances.get(token);
     }
 
-    const dependencies = registry.get(constructor);
+    const dependencies = registry.get(token);
     if (!dependencies) {
-        throw new Error(`Dependency injector: Type [${constructor.name}] is not registered`);
+        throw new Error(`Dependency injector: Type [${typeof token === 'function' ? token.name : token}] is not registered`);
     }
 
     let instance = null;
+    const ctor = getConstructor(token);
 
     if (!dependencies.length) {
-        instance = new constructor();
-        instances.set(constructor, instance)
+        instance = new ctor();
+        instances.set(token, instance)
     } else {
         const args = Array.from(dependencies).sort((left, right) => left.index - right.index).map(m => get(m.constructor))
-        instance = new constructor(...args);
+        instance = new ctor(...args);
     }
 
     return instance;
+}
+
+function getConstructor(token: Token): Type {
+    return typeof token === 'function' ? token : resolveType(token);
+}
+
+export function addSingletone(type: string, implementation: Type): void {
+    bind(type, implementation);
+    register(implementation);
+}
+
+export function has(t: Token): boolean {
+    return registry.has(t);
 }

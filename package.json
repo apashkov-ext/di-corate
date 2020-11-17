@@ -1,6 +1,6 @@
 {
   "name": "di-corate",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Another dependency injection implementation for Typescript using decorators",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -8,6 +8,9 @@
     "/lib"
   ],
   "scripts": {
+    "test": "nyc --reporter=lcovonly --reporter=text mocha -r ts-node/register src/tests/**/*.test.ts",
+    "test:ci": "npm run test && npm run coverage",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "tsc -p ."
   },
   "author": "apashkov-ext",
@@ -18,11 +21,21 @@
   },
   "keywords": [
     "dependency injection",
+    "dependency",
+    "injection",
     "di",
     "ioc",
     "inversion of control"
   ],
   "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^14.14.7",
+    "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.5"
   }
 }

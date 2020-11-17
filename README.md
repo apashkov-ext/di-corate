@@ -13,22 +13,30 @@ Use the library to engage the Dependency Injection in your project.
 The library does not use the `reflect-metadata` package.
 #### Simple DI
 
+**service1.ts**
 ```javascript
-//
-// service1.ts
+import { Injectable } from 'di-corate';
+
 @Injectable()
 export class Service1 {
     do() {}
 }
-//
-// service2.ts
+```
+
+**service2.ts**
+```javascript
+import { Injectable } from 'di-corate';
+
 @Injectable()
 export class Service2 {
     run() {}
 }
+```
 
-//
-// component.ts
+**component.ts**
+```javascript
+import { Inject, PropInject } from 'di-corate';
+
 export class Component {
     @PropInject(Service1) private readonly srv1: Service1;
 
@@ -44,16 +52,21 @@ export class Component {
 ```
 
 #### Dependency tree
+
+**http-client.ts**
 ```javascript
-//
-// http-client.ts
+import { Injectable } from 'di-corate';
+
 @Injectable()
 export class HttpClient {
     get(url: string) { return 'response'; }
 }
+```
 
-//
-// service.ts
+**service.ts**
+```javascript
+import { Injectable, Inject } from 'di-corate';
+
 @Injectable()
 export class Service {
     constructor(@Inject(HttpClient) private readonly http: HttpClient) { }
@@ -63,9 +76,12 @@ export class Service {
         console.log(resp);
     }
 }
+```
 
-//
-// component.ts
+**component.ts**
+```javascript
+import { Inject } from 'di-corate';
+
 export class Component {
     constructor(@Inject(Service) private readonly srv: Service) {
         example();
@@ -76,5 +92,44 @@ export class Component {
     }
 }
 ```
+
+#### Container setup
+
+**service.ts**
+```javascript
+export interface Service {
+    run(): void;
+}
+```
+
+**default-service.ts**
+```javascript
+export class DefaultService implements Service {
+    run() {
+        console.log('Implementation');
+    };
+}
+```
+
+**component.ts**
+```javascript
+import { Container, Inject } from 'di-corate';
+import { DefaultService } from 'default-service';
+
+Container.addSingletone('Service', DefaultService);
+
+export class Component {
+    constructor(@Inject('Service') private readonly srv: Service) {
+        example();
+    }
+
+    private example() {
+        this.srv.run(); // Console: 'Implementation'
+    }
+}
+```
+
 ## Roadmap
-- tests
+- ~~tests~~
+- ~~singletone registration~~
+- scoped registration

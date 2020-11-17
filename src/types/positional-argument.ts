@@ -1,6 +1,6 @@
-import { Constructor } from './constructor';
+import { Token } from './token';
 
 export interface PositionalArgument {
-    constructor: Constructor;
+    constructor: Token;
     index: number;
 }
