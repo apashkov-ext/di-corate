@@ -30,13 +30,13 @@ export function get(token: Token): any {
         return instances.get(token);
     }
 
-    const dependencies = registry.get(token);
+    const ctor = getConstructor(token);
+    const dependencies = registry.get(ctor);
     if (!dependencies) {
         throw new Error(`Dependency injector: Type [${typeof token === 'function' ? token.name : token}] is not registered`);
     }
 
     let instance = null;
-    const ctor = getConstructor(token);
 
     if (!dependencies.length) {
         instance = new ctor();

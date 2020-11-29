@@ -17,7 +17,7 @@ describe('parameter inject decorator: add target to registry', () => {
     it('should return true', () => {
         interface Dependency {}
         class Service {
-            constructor(@Inject('Dependency') srv: Dependency) { }
+            constructor(@Inject<Dependency>('Dependency') srv: Dependency) { }
         }
         
         expect(has(Service)).to.eq(true);
