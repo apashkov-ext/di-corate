@@ -1,6 +1,6 @@
-import { Token } from './token';
+import { InjectableType } from './injectable-type';
 
 export interface PositionalArgument {
-    constructor: Token;
-    index: number;
+    type: InjectableType;
+    index?: number;
 }

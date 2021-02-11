@@ -1,63 +1,43 @@
-import { bind, resolveType } from './container';
-import { PositionalArgument } from './types/positional-argument';
-import { Token } from './types/token';
 import { Type } from './types/type';
+import { DefaultInjectionOptions } from './types/default-injection-options';
+import { InjectionOptions } from './types/injection-options';
+import { TypeInfo } from './types/type-info';
+import { InjectableType } from './types/injectable-type';
 
-const registry = new Map<Token, PositionalArgument[]>();
-const instances = new Map<Token, any>();
+export class Registry {
+    private readonly registry = new Map<Type, TypeInfo>();
 
-export function register(constructor: any) {
-    if (!registry.has(constructor)) {
-        registry.set(constructor, []);
-    }
-}
-
-export function addDependency(target: Token, dep: Token, index: number) {
-    const deps = registry.get(target) || [];
-    const d = deps.find(f => f.constructor === dep);
-
-    if (d) {
-        d.index = index;
-    } else {
-        deps.push({ constructor: dep, index });
+    register(type: Type, options: Partial<InjectionOptions>) {
+        if (!this.registry.has(type)) {
+            this.registry.set(type, { 
+                dependencies: [], 
+                injectionScope: this.applyOptions(options).injectionScope
+            });
+        }
     }
 
-    registry.set(target, deps);
-}
+    addDependency(type: Type, dep: InjectableType, index: number) {
+        const info = this.registry.get(type) || { dependencies: [], injectionScope: this.applyOptions({}).injectionScope };
+        const d = info.dependencies.find(f => f.type === dep);
 
-export function get(token: Token): any {
-    if (instances.has(token)) {
-        return instances.get(token);
+        if (d && d.index === undefined) {
+            d.index = index;
+        } else {
+            info.dependencies.push({ type: dep, index });
+        }
+
+        this.registry.set(type, info);
     }
 
-    const ctor = getConstructor(token);
-    const dependencies = registry.get(ctor);
-    if (!dependencies) {
-        throw new Error(`Dependency injector: Type [${typeof token === 'function' ? token.name : token}] is not registered`);
+    getTypeInfo(target: Type): TypeInfo {
+        return this.registry.get(target);
     }
 
-    let instance = null;
-
-    if (!dependencies.length) {
-        instance = new ctor();
-        instances.set(token, instance)
-    } else {
-        const args = Array.from(dependencies).sort((left, right) => left.index - right.index).map(m => get(m.constructor))
-        instance = new ctor(...args);
+    has(t: Type): boolean {
+        return this.registry.has(t);
     }
 
-    return instance;
-}
-
-function getConstructor(token: Token): Type {
-    return typeof token === 'function' ? token : resolveType(token);
-}
-
-export function addSingletone(type: string, implementation: Type): void {
-    bind(type, implementation);
-    register(implementation);
-}
-
-export function has(t: Token): boolean {
-    return registry.has(t);
+    private applyOptions(opt: Partial<InjectionOptions>): InjectionOptions {
+        return Object.assign(new DefaultInjectionOptions(), opt);
+    }
 }

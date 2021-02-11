@@ -1,6 +1,10 @@
+import { DependencyProviders } from './startup';
+
 export * from './decorators/injectable';
-export * from './decorators/parameter-inject';
-export * from './decorators/property-inject';
+export * from './decorators/inject';
 export * from './types/type';
-export * from './types/token';
-export  { addSingletone } from './registry';
+export * from './types/injectable-type';
+export * from './types/injection-options';
+export * from './types/injection-scope.enum';
+
+export const provide = DependencyProviders.provide;
