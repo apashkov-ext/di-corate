@@ -56,3 +56,4 @@ DependencyProviders.provide(ServiceBase, Service);
 
 const t = new Test();
 t.run('888');
+t.run('999');

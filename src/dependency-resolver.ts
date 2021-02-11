@@ -5,18 +5,34 @@ import { InjectionScopeEnum } from './types/injection-scope.enum';
 import { Providers } from './providers';
 import { InjectableType } from './types/injectable-type';
 import { Literals } from './literals';
+import { DependencyNotRegisteredException } from './types/dependency-not-registered-exception';
 
-export class DependencyResolver {
+export class Instances {
     private readonly instances = new Map<Type, any>();
 
-    constructor(private readonly registry: Registry, private readonly providers: Providers) {}
+    addInstance(type: Type, ins: any) {
+        this.instances.set(type, ins);
+    }
+
+    getInstance(type: Type): any {
+        return this.instances.get(type);
+    }
+}
+
+export class DependencyResolver {
+    constructor(
+        private readonly registry: Registry, 
+        private readonly providers: Providers,
+        private readonly instances: Instances
+        ) {}
     
     resolve(type: InjectableType): any {
         const providedType = (this.providers.getProvider(type) || type) as Type;
         const info = this.registry.getTypeInfo(providedType);
-        const ctr = this.getOriginalConstructor(providedType);
+        
         if (!info) {
-            throw new Error(`Dependency injector: Type [${type.name}] is not registered`);
+            const ctor = this.getOriginalConstructor(providedType);
+            throw new DependencyNotRegisteredException(ctor.name);
         }
 
         switch (info.injectionScope) {
@@ -26,12 +42,12 @@ export class DependencyResolver {
     }
 
     private createAndGetSingletone(type: Type, deps: PositionalArgument[]): any {
-        if (this.instances.has(type)) {
-            return this.instances.get(type);
-        }
+        let instance = this.instances.getInstance(type);
 
-        const instance = this.instantiate(type, deps);
-        this.instances.set(type, instance);
+        if (!instance) {
+            instance = this.instantiate(type, deps);
+            this.instances.addInstance(type, instance);
+        }
 
         return instance;
     }
@@ -40,6 +56,7 @@ export class DependencyResolver {
         if (!dependencies.length) {
            return new type();
         }
+        
         const args = Array.from(dependencies).sort((left, right) => left.index - right.index).map(m => this.resolve(m.type));
         return new type(...args);  
     }
