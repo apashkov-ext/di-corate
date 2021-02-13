@@ -10,7 +10,10 @@ Another dependency injection implementation for Typescript using decorators.
 `npm install di-corate`
 ## Using
 Use the library to engage the Dependency Injection in your project.
-The library does not use the `reflect-metadata` package.
+The library does not use the `reflect-metadata` package. The library supports two ways of dependency injection:
+- **class property**
+- **constructor parameter**
+
 ### Simple DI
 
 **service1.ts**
@@ -35,11 +38,14 @@ export class Service2 {
 
 **component.ts**
 ```javascript
-import { Inject } from 'di-corate';
+import { Injectable, Inject } from 'di-corate';
 
+@Injectable()
 export class Component {
+	// Inject into property.
     @Inject(Service1) private readonly srv1: Service1;
-
+	
+	// Inejct into constuctor parameter.
     constructor(@Inject(Service2) private readonly srv2: Service2) {
         srv2.do();
         example();
@@ -80,8 +86,9 @@ export class Service {
 
 **component.ts**
 ```javascript
-import { Inject } from 'di-corate';
+import { Injectable, Inject } from 'di-corate';
 
+@Injectable()
 export class Component {
     constructor(@Inject(Service) private readonly srv: Service) {
         example();
@@ -144,7 +151,29 @@ export class SomeClass {
 </tbody>
 </table>
 
-###### Examples
+###### Time of instantiation
+
+
+The moment in time when the dependency instance will be created depends on the chosen dependency injection way.
+
+<table>
+<thead>
+  <tr>
+    <th>Injection target</th>
+    <th>Instantiation time</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Class property</td>
+    <td>On first access to the property</td>
+  </tr>
+  <tr>
+    <td>Constructor parameter</td>
+    <td>During class instantiation</td>
+  </tr>
+</tbody>
+</table>
 
 ### Custom provider setup
 
@@ -157,6 +186,9 @@ export abstract class Service {
 
 **default-service.ts**
 ```javascript
+import { Injectale } from 'di-corate';
+
+@Injectale()
 export class DefaultService implements Service {
     run() {
         console.log('Implementation');
@@ -166,18 +198,20 @@ export class DefaultService implements Service {
 
 **component.ts**
 ```javascript
-import { provide, Inject } from 'di-corate';
+import { provide, Injectable, Inject } from 'di-corate';
 import { DefaultService } from 'default-service';
 
 provide(Service, DefaultService);
 
+@Injectale()
 export class Component {
     constructor(@Inject('Service') private readonly srv: Service) {
         example();
     }
 
     private example() {
-        this.srv.run(); // Console: 'Implementation'
+        // Console: 'Implementation'.
+		this.srv.run(); 
     }
 }
 ```
