@@ -9,5 +9,3 @@ deploy:
   skip_cleanup: true
   on:
     branch: main
-notifications:
-  webhooks: https://coveralls.io/webhook
