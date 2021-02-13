@@ -4,6 +4,7 @@ Another dependency injection implementation for Typescript using decorators.
 [![Build Status](https://travis-ci.com/apashkov-ext/di-corate.svg?branch=main)](https://travis-ci.com/apashkov-ext/di-corate)
 [![npm version](https://img.shields.io/npm/v/di-corate)](https://www.npmjs.com/package/di-corate)
 [![install size](https://packagephobia.now.sh/badge?p=di-corate)](https://packagephobia.now.sh/result?p=di-corate)
+[![Coverage Status](https://coveralls.io/repos/github/apashkov-ext/di-corate/badge.svg?branch=main)](https://coveralls.io/github/apashkov-ext/di-corate?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/git/git-scm.com/blob/master/MIT-LICENSE.txt)
 
 ## Installation
