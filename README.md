@@ -11,7 +11,7 @@ Another dependency injection implementation for Typescript using decorators.
 ## Using
 Use the library to engage the Dependency Injection in your project.
 The library does not use the `reflect-metadata` package.
-#### Simple DI
+### Simple DI
 
 **service1.ts**
 ```javascript
@@ -35,10 +35,10 @@ export class Service2 {
 
 **component.ts**
 ```javascript
-import { Inject, PropInject } from 'di-corate';
+import { Inject } from 'di-corate';
 
 export class Component {
-    @PropInject(Service1) private readonly srv1: Service1;
+    @Inject(Service1) private readonly srv1: Service1;
 
     constructor(@Inject(Service2) private readonly srv2: Service2) {
         srv2.do();
@@ -93,12 +93,65 @@ export class Component {
 }
 ```
 
-#### Container setup
+### Instance lifetime configuring
+Its possible to configure instance lifecycle for each injectale type.
+
+###### Examples
+
+```javascript
+import { Injectale, InjectionScopeEnum } from 'di-corate';
+
+// Injects as singletone instance.
+@Injectale()
+export class SomeSingletone {
+    abstract run(): void;
+}
+
+// Injects as singletone instance.
+@Injectale({
+    scope: InjectionScopeEnum.Singletone
+})
+export class OtherSingletone {
+    abstract run(): void;
+}
+
+// Injects as transient instance.
+@Injectale({
+    scope: InjectionScopeEnum.Transient
+})
+export class SomeClass {
+    abstract run(): void;
+}
+```
+
+###### Explanation
+<table>
+<thead>
+  <tr>
+    <th>Injection scope</th>
+    <th>Instance sharing</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Singletone (uses by default)</td>
+    <td>One instance for the whole application</td>
+  </tr>
+  <tr>
+    <td>Transient</td>
+    <td>Dedicated instance for each consumer</td>
+  </tr>
+</tbody>
+</table>
+
+###### Examples
+
+### Custom provider setup
 
 **service.ts**
 ```javascript
-export interface Service {
-    run(): void;
+export abstract class Service {
+    abstract run(): void;
 }
 ```
 
@@ -113,10 +166,10 @@ export class DefaultService implements Service {
 
 **component.ts**
 ```javascript
-import { addSingletone, Inject } from 'di-corate';
+import { provide, Inject } from 'di-corate';
 import { DefaultService } from 'default-service';
 
-addSingletone('Service', DefaultService);
+provide(Service, DefaultService);
 
 export class Component {
     constructor(@Inject('Service') private readonly srv: Service) {
@@ -128,8 +181,24 @@ export class Component {
     }
 }
 ```
-
-## Roadmap
-- ~~tests~~
-- ~~singletone registration~~
-- scoped registration
+## Road map
+<table>
+<tbody>
+  <tr>
+    <td>Singletone injection scope</td>
+    <td>✅</td>
+  </tr>
+  <tr>
+    <td>Transient</td>
+    <td>✅</td>
+  </tr>
+  <tr>
+    <td>String injection token</td>
+    <td>❌</td>
+  </tr>
+   <tr>
+    <td>Multiple dependencies for single token (array of instances)</td>
+    <td>❌</td>
+  </tr>
+</tbody>
+</table>

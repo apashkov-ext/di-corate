@@ -1,5 +1,6 @@
 import { Container } from './container';
-import { DependencyResolver, Instances } from './dependency-resolver';
+import { DependencyResolver } from './dependency-resolver';
+import { Instances } from './instances';
 import { Providers } from './providers';
 import { Registry } from './registry';
 

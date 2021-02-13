@@ -9,7 +9,7 @@ export abstract class ServiceBase {
 }
 
 @Injectable({
-    injectionScope: InjectionScopeEnum.Transient
+    scope: InjectionScopeEnum.Transient
 })
 export class Service implements ServiceBase {
     private message: string;

@@ -3,5 +3,5 @@ import { PositionalArgument } from './positional-argument';
 
 export interface TypeInfo {
     dependencies: PositionalArgument[];
-    injectionScope: InjectionScopeEnum;
+    scope: InjectionScopeEnum;
 }

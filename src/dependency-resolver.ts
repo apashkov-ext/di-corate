@@ -6,18 +6,7 @@ import { Providers } from './providers';
 import { InjectableType } from './types/injectable-type';
 import { Literals } from './literals';
 import { DependencyNotRegisteredException } from './types/dependency-not-registered-exception';
-
-export class Instances {
-    private readonly instances = new Map<Type, any>();
-
-    addInstance(type: Type, ins: any) {
-        this.instances.set(type, ins);
-    }
-
-    getInstance(type: Type): any {
-        return this.instances.get(type);
-    }
-}
+import { Instances } from './instances';
 
 export class DependencyResolver {
     constructor(
@@ -35,7 +24,7 @@ export class DependencyResolver {
             throw new DependencyNotRegisteredException(ctor.name);
         }
 
-        switch (info.injectionScope) {
+        switch (info.scope) {
             case InjectionScopeEnum.Transient: return this.instantiate(providedType, info.dependencies)
             default: return this.createAndGetSingletone(providedType, info.dependencies);
         }
@@ -56,7 +45,7 @@ export class DependencyResolver {
         if (!dependencies.length) {
            return new type();
         }
-        
+
         const args = Array.from(dependencies).sort((left, right) => left.index - right.index).map(m => this.resolve(m.type));
         return new type(...args);  
     }

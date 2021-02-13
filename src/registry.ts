@@ -11,13 +11,13 @@ export class Registry {
         if (!this.registry.has(type)) {
             this.registry.set(type, { 
                 dependencies: [], 
-                injectionScope: this.applyOptions(options).injectionScope
+                scope: this.applyOptions(options).scope
             });
         }
     }
 
     addDependency(type: Type, dep: InjectableType, index: number) {
-        const info = this.registry.get(type) || { dependencies: [], injectionScope: this.applyOptions({}).injectionScope };
+        const info = this.registry.get(type) || { dependencies: [], scope: this.applyOptions({}).scope };
         const d = info.dependencies.find(f => f.type === dep);
 
         if (d && d.index === undefined) {
