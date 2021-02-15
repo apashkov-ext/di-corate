@@ -17,25 +17,17 @@ export function Inject(type: InjectableType) {
       return;
     }
 
-    const k = Symbol(key.toString());
-    
-    Object.defineProperty(target, k, {
-      value: undefined,
-      enumerable: false,
-      writable: true
-    });
+    const initInstance = () => {
+      let instance;
+      if (!instance) {
+        instance = DependencyResolver.resolve(type);
+      }
+      return instance;
+    };
 
     Object.defineProperty(target, key, {
-      get: function () {
-        let instance = this[k];
-        if (!instance) {
-          instance = DependencyResolver.resolve(type);
-          this[k] = instance;
-        }
-        return instance;
-      },
+      get: initInstance(),
       enumerable: true
     });
-    
   };
 }
