@@ -18,15 +18,19 @@ export function Inject(type: InjectableType) {
     }
 
     const initInstance = () => {
-      let instance;
-      if (!instance) {
-        instance = DependencyResolver.resolve(type);
-      }
-      return instance;
+      let instance: InjectableType<any>;
+      return () => {
+        if (!instance) {
+          instance = DependencyResolver.resolve(type);
+        }
+        return instance;
+      };
     };
 
+    const getInstanceFn = initInstance();
+
     Object.defineProperty(target, key, {
-      get: initInstance(),
+      get: () => getInstanceFn(),
       enumerable: true
     });
   };
