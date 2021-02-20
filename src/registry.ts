@@ -9,11 +9,16 @@ export class Registry {
 
     register(type: Type, options: Partial<InjectionOptions>) {
         if (!this.registry.has(type)) {
-            this.registry.set(type, { 
-                dependencies: [], 
+            this.registry.set(type, {
+                dependencies: [],
                 scope: this.applyOptions(options).scope
             });
+            return;
         }
+
+        const item = this.registry.get(type);
+        item.scope = this.applyOptions(options).scope;
+        this.registry.set(type, item);
     }
 
     addDependency(type: Type, dep: InjectableType, index: number) {
