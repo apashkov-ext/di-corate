@@ -18,7 +18,7 @@ export function Inject(type: InjectableType) {
     }
 
     const initInstance = () => {
-      let instance: InjectableType<any>;
+      let instance: any;
       return () => {
         if (!instance) {
           instance = DependencyResolver.resolve(type);
