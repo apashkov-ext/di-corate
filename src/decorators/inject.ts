@@ -8,29 +8,31 @@ import { InjectableType } from '../types/injectable-type';
  * @param type Provider type.
  */
 export function Inject(type: InjectableType) {
-  return (target: any, key: string | symbol, index?: number) => {  
+  return (target: any, key: string | symbol, index?: number) => {
     if (type === undefined) {
       throw new Error(`Dependency injector: Type is undefined or circular dependency detected in type [${target.name}]`);
-    }   
+    }
     if (index !== undefined) {
       DependencyRegistry.addDependency(target, type, index);
       return;
     }
 
-    const initInstance = () => {
-      let instance: any;
-      return () => {
-        if (!instance) {
-          instance = DependencyResolver.resolve(type);
-        }
-        return instance;
-      };
-    };
+    const k = Symbol(key.toString());
 
-    const getInstanceFn = initInstance();
+    Object.defineProperty(target, k, {
+      value: undefined,
+      writable: true
+    });
 
     Object.defineProperty(target, key, {
-      get: () => getInstanceFn(),
+      get: function () {
+        let instance = this[k];
+        if (!instance) {
+          instance = DependencyResolver.resolve(type);
+          this[k] = instance;
+        }
+        return instance;
+      },
       enumerable: true
     });
   };
